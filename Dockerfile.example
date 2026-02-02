@@ -1,0 +1,44 @@
+# Example Dockerfile for Spring Boot Microservice
+# 
+# ⚠️ IMPORTANT: This is an EXAMPLE. Students must create their own Dockerfiles
+# for each service (user-service, product-service, order-service, api-gateway)
+# as part of Week 2 exercises.
+#
+# See Aulas/Week-02/ for detailed instructions on creating Dockerfiles
+
+# Stage 1: Build
+FROM maven:3.9-eclipse-temurin-21 AS builder
+WORKDIR /app
+
+# Copy pom.xml first (for better layer caching)
+COPY pom.xml .
+# Download dependencies
+RUN mvn dependency:go-offline -B
+
+# Copy source code
+COPY src ./src
+
+# Build the application
+RUN mvn clean package -DskipTests
+
+# Stage 2: Runtime
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+
+# Create non-root user for security
+RUN addgroup -S spring && adduser -S spring -G spring
+USER spring:spring
+
+# Copy JAR from builder stage
+COPY --from=builder /app/target/*.jar app.jar
+
+# Expose port (adjust for each service: 8080, 8081, 8082, 8083)
+EXPOSE 8080
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:8080/actuator/health || exit 1
+
+# Run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
+

@@ -1,0 +1,14 @@
+# Docker ignore file
+# Students should create this file in Week 2
+
+target/
+.git/
+.gitignore
+*.md
+Aulas/
+.mvn/
+.vscode/
+.idea/
+*.iml
+.DS_Store
+
