@@ -2,7 +2,7 @@
 
 This project serves as a **base template** for developing microservices in Java with Spring Boot, designed for educational purposes in Cloud Computing courses.
 
-**⚠️ IMPORTANT:** This is an initial template. Students must complete the functionalities according to the course plan, including:
+** IMPORTANT:** This is an initial template. Students must complete the functionalities according to the course plan, including:
 - **Dockerfiles** (Week 2) - Create Dockerfiles for each microservice
 - **Docker Compose** (Week 2) - Create docker-compose.yml to orchestrate all services
 - Additional unit tests
@@ -167,8 +167,6 @@ microservices-project/
 - **Jakarta Validation** - Bean validation framework
 - **SpringDoc OpenAPI 2.6.0** - API documentation (Swagger UI)
 - **Micrometer & Prometheus** - Metrics collection and observability
-- **Distributed Tracing (Brave/Zipkin)** - Request tracing across microservices
-
 ## Prerequisites
 
 Before running this project, ensure you have the following installed:
@@ -361,7 +359,7 @@ All tests use:
 ### Best Practices Implemented
 
 - ✅ **OpenAPI/Swagger Documentation** - Complete API documentation for all services
-- ✅ **Observability** - Prometheus metrics and distributed tracing
+- ✅ **Observability** - Prometheus metrics via Actuator
 - ✅ **Comprehensive Testing** - Unit and integration tests with high coverage
 - ✅ **Error Handling** - Global exception handlers with proper HTTP status codes
 - ✅ **Validation** - Jakarta Validation for request validation
