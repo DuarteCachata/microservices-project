@@ -1,0 +1,38 @@
+---
+- name: Configure Web Servers
+  hosts: web_servers
+  become: yes
+
+  tasks:
+    - name: Update packages
+      dnf:
+        name: "*"
+        state: latest
+        update_cache: yes
+
+    - name: Install Docker
+      dnf:
+        name: docker
+        state: present
+
+    - name: Start Docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add ec2-user to docker group
+      user:
+        name: ec2-user
+        groups: docker
+        append: yes
+
+    - name: Pull nginx image
+      command: docker pull nginx
+
+    - name: Remove old nginx container if exists
+      command: docker rm -f nginx-container
+      ignore_errors: yes
+
+    - name: Run nginx container
+      command: docker run -d --name nginx-container --restart unless-stopped -p 8080:80 nginx

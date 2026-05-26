@@ -1,0 +1,37 @@
+---
+- name: Deploy Application
+  hosts: web_servers
+  become: yes
+
+  vars:
+    image_name: nginx
+    container_name: product-service
+    app_port: 8081
+
+  tasks:
+    - name: Pull latest image
+      command: docker pull "{{ image_name }}"
+
+    - name: Stop and remove existing container
+      command: docker rm -f "{{ container_name }}"
+      ignore_errors: yes
+
+    - name: Start new container
+      command: docker run -d --name "{{ container_name }}" --restart unless-stopped -p "{{ app_port }}:80" "{{ image_name }}"
+
+    - name: Show running containers
+      command: docker ps
+      register: docker_ps_output
+
+    - name: Print docker ps output
+      debug:
+        var: docker_ps_output.stdout_lines
+
+    - name: Show container logs
+      command: docker logs "{{ container_name }}"
+      register: docker_logs_output
+      ignore_errors: yes
+
+    - name: Print docker logs output
+      debug:
+        var: docker_logs_output.stdout_lines
