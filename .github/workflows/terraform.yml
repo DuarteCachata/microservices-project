@@ -21,7 +21,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: infra
+        working-directory: infra/week9-sqs
 
     steps:
       - uses: actions/checkout@v4
