@@ -36,4 +36,9 @@ resource "aws_sqs_queue" "product_events_fifo" {
   name                        = "cn-course-product-events.fifo"
   fifo_queue                  = true
   content_based_deduplication = true
+
+  tags = {
+    Environment = "lab"
+    Project     = "microservices-project"
+  }
 }
